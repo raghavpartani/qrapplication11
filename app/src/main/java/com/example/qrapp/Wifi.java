@@ -243,7 +243,7 @@ public class Wifi extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         //create qr code btn
         if (v == button) {
-            String data = "WIFI:"+"S:" + (editText_ssid.getText().toString()) + ";P:" + (editText_pass.getText().toString());
+            String data = "WIFI:"+"SIID:" + (editText_ssid.getText().toString()) + ";Password:" + (editText_pass.getText().toString());
 
             String data_ssid = editText_ssid.getText().toString();
             String data_pass = editText_pass.getText().toString();

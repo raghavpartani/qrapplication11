@@ -93,6 +93,10 @@ public class Suggestion extends AppCompatActivity implements View.OnClickListene
     boolean mPermission = false;
     private String mQRType ;
 
+    String qrData1;
+    String qrData2;
+    int select=0;
+
     private TypeCheckClass mTypeCheckClass ;
     private EmailCheckClass mEmailCheckClass ;
     private WifiCheckClass mWifiCheckClass ;
@@ -138,13 +142,17 @@ public class Suggestion extends AppCompatActivity implements View.OnClickListene
     private void SetUpQRCode(){
         Bundle mBundle = getIntent().getExtras();
         if(mBundle!= null ){
-            String qrData1 = mBundle.getString("qrResult");
-            String qrData2 = mBundle.getString("qrImageData");
+
+             qrData1 = mBundle.getString("qrResult");
+             qrData2 = mBundle.getString("qrImageData");
             Log.d(TAG, "SetUpQRCode() Scanner data ="+qrData1);
             if(qrData1 != null ){
+                select=1;
                 Log.d(TAG, "SetUpQRCode() Scanner data ="+qrData1);
                 Log.d(TAG, "SetUpQRCode() Gallery data ="+qrData2);
                 content_txt.setText(qrData1);
+                Toast.makeText(this, ""+qrData1, Toast.LENGTH_SHORT).show();
+
                 QRGEncoder qrgEncoder = new QRGEncoder(qrData1, null, QRGContents.Type.TEXT, 250);
                 try {
                     Bitmap qrBitMap = qrgEncoder.getBitmap();
@@ -154,6 +162,7 @@ public class Suggestion extends AppCompatActivity implements View.OnClickListene
                 }
             }
             if(qrData2 != null){
+                select=2;
                 Log.d(TAG, "SetUpQRCode() Gallery data ="+qrData2);
                 try {
                     Bitmap qrBitMap = BitmapFactory.decodeStream(this.openFileInput("qrImage"));
@@ -162,6 +171,8 @@ public class Suggestion extends AppCompatActivity implements View.OnClickListene
                     Log.d(TAG, "SetUpQRCode() qrData2 EXCEPTION = "+e.getMessage());
                 }
                 content_txt.setText(qrData2);
+
+
             }
             if(hasImage(qr_code_img)){
                 Bitmap qrBitMap = ((BitmapDrawable)qr_code_img.getDrawable()).getBitmap();
@@ -172,7 +183,6 @@ public class Suggestion extends AppCompatActivity implements View.OnClickListene
 
     //  Give suggestion for different QR code
     private void IntentSuggestions() {
-
         String qrData = content_txt.getText().toString();
         if(!qrData.equals("")){
             if (mQRType.equals(TEL.toString())) {
@@ -180,10 +190,31 @@ public class Suggestion extends AppCompatActivity implements View.OnClickListene
             } else if (mQRType.equals(URI.toString())) {
                 sugg_button.setText("Open in Browser");
             } else if (mQRType.equals(SMS.toString())) {
-                sugg_button.setText("Send SMS");
+                if(select==1) {
+                    String str = qrData1.replaceAll("[?]", "\n");
+                    content_txt.setText(str);
+                    Toast.makeText(this, "" + str, Toast.LENGTH_SHORT).show();
+                    sugg_button.setText("Send SMS");
+                }
+                if(select==2) {
+                    String str = qrData2.replaceAll("[?]", "\n");
+                    content_txt.setText(str);
+                    Toast.makeText(this, "" + str, Toast.LENGTH_SHORT).show();
+                    sugg_button.setText("Send SMS");
+                }
             } else if (mQRType.equals(GEO.toString())){
                 sugg_button.setText("Search On GoogleMap");
             } else if (mQRType.equals(EMAIL_ADDRESS.toString())) {
+                if(select==1){
+                String str = qrData1.replaceAll("[&]","\n");
+                String str1 = str.replaceAll("[?]","");
+                content_txt.setText(str1);
+                }
+                if(select==2){
+                    String str = qrData1.replaceAll("[&]","\n");
+                    String str1 = str.replaceAll("[?]","");
+                    content_txt.setText(str1);
+                }
                 sugg_button.setText("Send Email");
             } else if (mQRType.equals(WIFI.toString())){
                 sugg_button.setText("Connect Wifi");

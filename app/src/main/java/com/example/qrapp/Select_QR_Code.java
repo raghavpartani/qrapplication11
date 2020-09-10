@@ -36,8 +36,6 @@ public class Select_QR_Code extends AppCompatActivity implements RecyclerAdapter
 
     private List<QRcode> qRcodeList = new ArrayList<>();
     private RecyclerView recyclerView;
-  LinearLayout layout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,11 +124,7 @@ public class Select_QR_Code extends AppCompatActivity implements RecyclerAdapter
 
                 default:
                     break;
-
         }
-
-
-
     }
     private void changeStatusBarColor() {
         ActionBar actionBar=getSupportActionBar();
