@@ -151,7 +151,8 @@ public class Suggestion extends AppCompatActivity implements View.OnClickListene
                 Log.d(TAG, "SetUpQRCode() Scanner data ="+qrData1);
                 Log.d(TAG, "SetUpQRCode() Gallery data ="+qrData2);
                 content_txt.setText(qrData1);
-                Toast.makeText(this, ""+qrData1, Toast.LENGTH_SHORT).show();
+               //
+                // Toast.makeText(this, ""+qrData1, Toast.LENGTH_SHORT).show();
 
                 QRGEncoder qrgEncoder = new QRGEncoder(qrData1, null, QRGContents.Type.TEXT, 250);
                 try {
@@ -193,13 +194,13 @@ public class Suggestion extends AppCompatActivity implements View.OnClickListene
                 if(select==1) {
                     String str = qrData1.replaceAll("[?]", "\n");
                     content_txt.setText(str);
-                    Toast.makeText(this, "" + str, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(this, "" + str, Toast.LENGTH_SHORT).show();
                     sugg_button.setText("Send SMS");
                 }
                 if(select==2) {
                     String str = qrData2.replaceAll("[?]", "\n");
                     content_txt.setText(str);
-                    Toast.makeText(this, "" + str, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "" + str, Toast.LENGTH_SHORT).show();
                     sugg_button.setText("Send SMS");
                 }
             } else if (mQRType.equals(GEO.toString())){
